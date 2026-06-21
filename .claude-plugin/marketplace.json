@@ -1,0 +1,14 @@
+{
+  "name": "faircode-skills",
+  "owner": { "name": "Faircode", "url": "https://faircode.co" },
+  "metadata": { "description": "Faircode ERPNext delivery skill suite", "version": "0.1.0" },
+  "plugins": [
+    {
+      "name": "faircode",
+      "description": "ERPNext implementation & customisation delivery skills",
+      "source": "./",
+      "strict": false,
+      "skills": []
+    }
+  ]
+}
