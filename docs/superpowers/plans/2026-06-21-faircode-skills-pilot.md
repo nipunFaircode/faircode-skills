@@ -439,10 +439,11 @@ git commit -m "feat: ERPNext safe-write layer with confirmation gate"
 - Create: `shared/references/git-conventions.md`
 - Create: `shared/references/definition-of-done.md`
 - Create: `shared/references/severity-levels.md`
+- Create: `shared/references/erp-coverage-map.md`
 - Test: `tests/test_references_exist.py`
 
 **Interfaces:**
-- Produces: four markdown references cited by the pilot skills. Stable relative paths under `shared/references/`.
+- Produces: five markdown references cited by the pilot skills. Stable relative paths under `shared/references/`. `erp-coverage-map.md` is the completeness checklist consumed by `faircode-requirements-discovery` (Task 5A).
 
 - [ ] **Step 1: Write the failing test**
 
@@ -454,10 +455,17 @@ ROOT = Path(__file__).resolve().parent.parent
 
 def test_references_present_and_nonempty():
     for fn in ["frappe-methods.md", "git-conventions.md",
-               "definition-of-done.md", "severity-levels.md"]:
+               "definition-of-done.md", "severity-levels.md",
+               "erp-coverage-map.md"]:
         p = ROOT / "shared" / "references" / fn
         assert p.is_file(), f"missing {fn}"
         assert len(p.read_text().strip()) > 200, f"{fn} too thin"
+
+def test_coverage_map_has_core_modules():
+    text = (ROOT / "shared" / "references" / "erp-coverage-map.md").read_text().lower()
+    for module in ["selling", "buying", "stock", "manufacturing", "accounts",
+                   "payroll", "permissions", "data migration"]:
+        assert module in text, f"coverage map missing {module}"
 ```
 
 - [ ] **Step 2: Run test to verify it fails**
@@ -547,16 +555,63 @@ Every bug report states: severity, environment, steps to reproduce,
 expected vs actual, and the linked ERPNext project.
 ```
 
+Create `shared/references/erp-coverage-map.md`:
+
+```markdown
+# ERP Coverage Map
+
+The discovery agenda. `faircode-requirements-discovery` walks the consultant (or
+customer) through every in-scope item below, one question at a time, and marks
+each `answered`, `N/A — reason`, or `open`. No solution is proposed while any
+in-scope item is `open`.
+
+## Core modules
+- **Selling** — quotations, sales orders, pricing rules, discounts, customer
+  groups, territories, sales taxes, delivery terms.
+- **Buying** — supplier groups, RFQ, purchase orders, supplier quotations,
+  purchase taxes, payment terms.
+- **Stock / Inventory** — items, item groups, UOMs, warehouses, valuation
+  method, batch/serial, stock reconciliation, reorder levels.
+- **Manufacturing** — BOMs, work orders, routing, workstations, job cards,
+  subcontracting, capacity planning.
+- **Accounts / Finance** — chart of accounts, cost centers, fiscal year,
+  journal entries, payment entries, bank reconciliation, taxes & charges,
+  multi-currency.
+- **HR & Payroll** — employees, departments, designations, attendance, leaves,
+  salary structures, payroll cycle, statutory deductions.
+- **Projects** — project types, tasks, timesheets, billing, profitability.
+- **CRM** — leads, opportunities, sales pipeline, communication tracking.
+- **Assets** — asset categories, depreciation, maintenance, disposal.
+- **Quality** — quality inspections, procedures, goals, non-conformance.
+- **Support / Helpdesk** — issues, SLAs, service contracts.
+- **Website / Portal** — customer/supplier portal, web forms, e-commerce.
+
+## Cross-cutting aspects (always ask)
+- **Company & org structure** — number of companies, branches, consolidation.
+- **Chart of accounts** — existing CoA to import vs standard template.
+- **Taxes** — tax regime, tax templates, withholding, e-invoicing.
+- **Naming series** — document numbering conventions per doctype.
+- **Roles & permissions** — who can see/do what; approval hierarchy.
+- **Workflows & approvals** — which documents need multi-step approval.
+- **Print formats** — branded invoices, POs, letterheads, language.
+- **Integrations** — payment gateways, banks, shipping, existing systems, APIs.
+- **Data migration sources** — what master/transaction data to import, from
+  where (Excel, legacy ERP, Tally, etc.), and in what cutover state.
+- **Reporting & KPIs** — the reports and dashboards the business runs on.
+- **Multi-currency / multi-company** — consolidation and inter-company flows.
+- **Languages & localisation** — UI language, regional compliance.
+```
+
 - [ ] **Step 4: Run test to verify it passes**
 
 Run: `python -m pytest tests/test_references_exist.py -v`
-Expected: PASS.
+Expected: PASS (covers all 5 references + the coverage-map module check).
 
 - [ ] **Step 5: Commit**
 
 ```bash
 git add shared/references tests/test_references_exist.py
-git commit -m "docs: shared references (frappe methods, git, DoD, severity)"
+git commit -m "docs: shared references (frappe methods, git, DoD, severity, ERP coverage map)"
 ```
 
 ---
@@ -639,6 +694,114 @@ Expected: PASS (validator confirms `faircode-delivery` folder exists and frontma
 ```bash
 git add skills/faircode-delivery .claude-plugin/marketplace.json
 git commit -m "feat: faircode-delivery orchestrator skill"
+```
+
+---
+
+### Task 5A: `faircode-requirements-discovery` skill (interactive, gated)
+
+**Files:**
+- Create: `skills/faircode-requirements-discovery/SKILL.md`
+- Modify: `.claude-plugin/marketplace.json`
+
+**Interfaces:**
+- Consumes: `shared/references/erp-coverage-map.md` (built in Task 4),
+  `shared/references/definition-of-done.md`.
+- Produces: an interactive, completeness-gated discovery procedure with two
+  modes (consultant-readiness internal interview; customer-facing discovery with
+  visual cues). Feeds `faircode-solution-blueprint` and `faircode-task-breakdown`.
+
+This is a guard-rail (🔒) skill: it MUST carry a mandatory checklist, a STOP /
+red-flags table, and a Definition of Done, and it MUST refuse to propose a
+solution while any applicable Coverage Map item is still `open`.
+
+- [ ] **Step 1: Write SKILL.md**
+
+Create `skills/faircode-requirements-discovery/SKILL.md`:
+
+```markdown
+---
+name: faircode-requirements-discovery
+description: >-
+  Use when a Faircode consultant is gathering or reviewing requirements for an
+  ERPNext implementation/customisation, BEFORE any solution is proposed.
+  Triggers on "discovery", "requirements", "gather requirements", "interview the
+  customer", "what do they need", "before we design", or preparing for a
+  requirements meeting. Interactively questions the consultant module by module
+  and blocks moving to a solution until ERP coverage is complete.
+---
+
+# Faircode Requirements Discovery (interactive, gated)
+
+Your job: make sure NOTHING about the customer's business is missed before a
+solution is proposed. You are an interviewer, not a form. Ask one question at a
+time, wait for the answer, record it, then ask the next.
+
+## Two modes — pick one at the start
+- **Mode A — Consultant readiness (internal):** interview the Faircode
+  consultant to verify THEY have covered every ERP aspect after their customer
+  discussions. Use this before sign-off / before task breakdown.
+- **Mode B — Customer-facing discovery:** drive the live discovery meeting.
+  Same coverage, but phrase questions for the customer and use visual cues
+  (process diagrams, screen mockups, example documents) instead of long notes,
+  so everyone is on the same page.
+
+Ask which mode, then proceed.
+
+## Procedure
+1. Load `shared/references/erp-coverage-map.md`. It lists every ERPNext domain
+   and cross-cutting aspect. This is your agenda.
+2. Confirm which modules are in scope for THIS customer (ask). Mark the rest
+   `N/A — out of scope` with the reason given.
+3. For each in-scope item, ask ONE focused question at a time. Record the answer
+   against the item as `answered`. If the consultant/customer says it does not
+   apply, record `N/A — <reason>`. Never assume; if an answer is vague, ask a
+   follow-up until it is testable/specific.
+4. As you go, note **fit-gaps** (where vanilla ERPNext does not meet the need →
+   customisation) and **open questions** that need the customer.
+5. Track a running tally: answered / N-A / open. Show it when asked.
+
+## STOP — the completeness gate (do not skip)
+You MUST NOT propose a solution, summarise "requirements complete", or hand off
+to `faircode-solution-blueprint` / `faircode-task-breakdown` while ANY in-scope
+Coverage Map item is still `open`.
+
+| Thought | Reality |
+| --- | --- |
+| "We've covered the main things, let's design" | "Main things" is how points get missed. Every in-scope item is answered or N/A first. |
+| "I'll assume they use standard taxes/CoA" | Do not assume. Ask. |
+| "The customer didn't mention it, so skip it" | Silence is an open item, not a no. Ask explicitly and record N/A with reason. |
+| "Long notes capture it" | Use visual cues (Mode B) so the customer confirms understanding, not just words. |
+
+## Output (only after the gate passes)
+- The filled coverage map: every item `answered` or `N/A — reason`.
+- The list of fit-gaps (vanilla vs customisation).
+- The list of customer-facing open questions (if any remain for Mode A → these
+  must be resolved before sign-off).
+
+## Definition of Done
+- Mode chosen and recorded.
+- In-scope modules confirmed; out-of-scope marked with reasons.
+- Zero `open` items remain for in-scope coverage.
+- Fit-gaps and open questions captured.
+
+> Next: `faircode-solution-blueprint` to turn this into a visual design, then
+> `faircode-task-breakdown`.
+```
+
+- [ ] **Step 2: Wire into marketplace.json** — append
+  `"./skills/faircode-requirements-discovery"` to the `skills` array.
+
+- [ ] **Step 3: Run the structure validator**
+
+Run: `python -m pytest tests/test_plugin_structure.py -v`
+Expected: PASS.
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add skills/faircode-requirements-discovery .claude-plugin/marketplace.json
+git commit -m "feat: faircode-requirements-discovery interactive gated skill"
 ```
 
 ---

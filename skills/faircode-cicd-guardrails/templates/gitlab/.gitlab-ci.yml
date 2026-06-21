@@ -1,0 +1,24 @@
+stages: [lint, test]
+variables:
+  MYSQL_ROOT_PASSWORD: root
+lint:
+  stage: lint
+  image: python:3.11
+  script:
+    - pip install ruff
+    - ruff check .
+test:
+  stage: test
+  image: python:3.11
+  services:
+    - mariadb:10.6
+    - redis:7
+  script:
+    - pip install frappe-bench
+    - bench init --skip-redis-config-generation --frappe-branch version-15 frappe-bench
+    - cd frappe-bench
+    - bench new-site test.localhost --admin-password admin --mariadb-root-password root --no-mariadb-socket
+    - bench get-app "$CI_PROJECT_DIR" && bench --site test.localhost install-app "$CI_PROJECT_NAME"
+    - bench --site test.localhost run-tests --app "$CI_PROJECT_NAME" --coverage
+    - coverage report --fail-under=70
+  coverage: '/TOTAL.+?(\d+\%)/'
