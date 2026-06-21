@@ -24,3 +24,9 @@ export FAIRCODE_ERP_TOKEN="<api-key>:<api-secret>"   # never commit this
 - `shared/references/` — shared rules cited by skills
 
 See `docs/superpowers/specs/` for the design and `docs/superpowers/plans/` for the build plan.
+
+## Security note
+
+The legacy `tracker/fetch.py` had a hardcoded ERPNext API token. That token must
+be **rotated** in ERPNext (deactivate the old key/secret, issue a new one) and
+supplied only via `FAIRCODE_ERP_TOKEN`. Treat the old token as compromised.
