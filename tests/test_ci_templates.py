@@ -15,3 +15,4 @@ def test_gitlab_template_runs_tests_and_coverage():
     y = (TPL / "gitlab" / ".gitlab-ci.yml").read_text()
     assert "run-tests" in y
     assert "coverage" in y.lower()
+    assert "ruff" in y

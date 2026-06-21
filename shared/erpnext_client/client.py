@@ -74,6 +74,18 @@ class ERPNextClient:
         summary = f"COMMENT on {doctype} {name}: {text!r}"
         return self._safe_post("Comment", doc, summary)
 
+    def log_action_item(self, description, allocated_to, date=None,
+                        reference_type=None, reference_name=None):
+        doc = {"description": description, "allocated_to": allocated_to}
+        if date:
+            doc["date"] = date
+        if reference_type and reference_name:
+            doc["reference_type"] = reference_type
+            doc["reference_name"] = reference_name
+        ref = f" → {reference_type} {reference_name}" if reference_name else ""
+        summary = f"CREATE ToDo for {allocated_to}{ref}: {description!r}"
+        return self._safe_post("ToDo", doc, summary)
+
     def file_bug(self, project, subject, body):
         doc = {"project": project, "subject": subject, "description": body}
         summary = f"CREATE Issue in {project}: {subject!r}\n{body}"

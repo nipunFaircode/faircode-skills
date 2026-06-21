@@ -35,7 +35,7 @@ def test_marketplace_lists_existing_skills():
 
 def test_no_hardcoded_token():
     # crude secret scan across tracked python and yaml
-    pattern = re.compile(r"token\s+[0-9a-f]{15}:[0-9a-f]{15}")
+    pattern = re.compile(r"token\s+[A-Za-z0-9]{8,}:[A-Za-z0-9]{8,}")
     for path in ROOT.rglob("*"):
         if path.suffix in {".py", ".yml", ".yaml", ".md"} and path.is_file():
             if "test_plugin_structure" in path.name:
