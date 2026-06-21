@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faircode Skills Suite — Team Review</title>
+<style>
+  :root{
+    --bg:#0f172a; --panel:#ffffff; --ink:#1e293b; --muted:#64748b;
+    --line:#e2e8f0; --brand:#4f46e5; --brand-soft:#eef2ff;
+    --ai:#0ea5e9; --human:#f59e0b; --both:#10b981; --lock:#dc2626;
+    --pilot:#16a34a; --pilot-soft:#dcfce7;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink); background:#f1f5f9; line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:980px; margin:0 auto; padding:0 20px 80px}
+  header.hero{
+    background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 60%,#9333ea 100%);
+    color:#fff; padding:54px 20px 46px; margin-bottom:34px;
+  }
+  .hero-inner{max-width:980px; margin:0 auto}
+  .eyebrow{text-transform:uppercase; letter-spacing:.14em; font-size:12px; opacity:.85; font-weight:600}
+  header.hero h1{margin:.3em 0 .2em; font-size:34px; line-height:1.15; font-weight:800}
+  header.hero p{margin:.2em 0; font-size:17px; opacity:.95; max-width:70ch}
+  .hero-meta{margin-top:20px; display:flex; flex-wrap:wrap; gap:10px}
+  .chip{display:inline-flex; align-items:center; gap:7px; background:rgba(255,255,255,.16);
+    border:1px solid rgba(255,255,255,.28); padding:7px 13px; border-radius:999px; font-size:13.5px; font-weight:500}
+  .chip a{color:#fff; text-decoration:underline}
+  .toc{
+    background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:18px 22px;
+    margin-bottom:30px; box-shadow:0 1px 2px rgba(15,23,42,.04)
+  }
+  .toc h4{margin:0 0 10px; font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted)}
+  .toc ol{margin:0; padding-left:20px; columns:2; column-gap:30px}
+  .toc a{color:var(--brand); text-decoration:none}
+  .toc a:hover{text-decoration:underline}
+  section{background:var(--panel); border:1px solid var(--line); border-radius:16px;
+    padding:30px 34px; margin-bottom:26px; box-shadow:0 1px 2px rgba(15,23,42,.04)}
+  section h2{margin:0 0 4px; font-size:23px; font-weight:800; letter-spacing:-.01em}
+  section h2 .num{color:var(--brand); font-weight:800; margin-right:10px}
+  section .lead{color:var(--muted); margin:.2em 0 1.4em; font-size:15.5px}
+  h3{font-size:16.5px; margin:1.6em 0 .5em; font-weight:700}
+  p{margin:.6em 0}
+  ul{margin:.5em 0; padding-left:22px}
+  li{margin:.3em 0}
+  code{background:#f1f5f9; padding:2px 6px; border-radius:5px; font-size:13px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  pre{background:#0f172a; color:#e2e8f0; padding:16px 18px; border-radius:12px; overflow:auto; font-size:13.5px}
+  pre code{background:none; color:inherit; padding:0}
+  .callout{border-left:4px solid var(--brand); background:var(--brand-soft);
+    padding:14px 18px; border-radius:0 10px 10px 0; margin:1.2em 0}
+  .callout.warn{border-color:#f59e0b; background:#fffbeb}
+  .callout.danger{border-color:var(--lock); background:#fef2f2}
+  .callout strong{display:block; margin-bottom:3px}
+  .pains{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin-top:14px}
+  .pain{border:1px solid var(--line); border-radius:12px; padding:14px 16px; background:#fcfcfd}
+  .pain b{display:block; color:var(--lock); font-size:13.5px; margin-bottom:4px}
+  .pain span{font-size:14px; color:var(--ink)}
+  .arrow{color:var(--pilot); font-weight:700}
+  table{border-collapse:collapse; width:100%; margin:1em 0; font-size:14px}
+  th,td{text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); vertical-align:top}
+  th{background:#f8fafc; font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted)}
+  .tag{display:inline-block; font-size:11px; font-weight:700; padding:2px 8px; border-radius:999px; color:#fff}
+  .tag.ai{background:var(--ai)} .tag.human{background:var(--human)} .tag.both{background:var(--both)}
+  .lock{color:var(--lock); font-weight:700}
+  .pilotbadge{display:inline-block; font-size:10.5px; font-weight:800; letter-spacing:.04em;
+    background:var(--pilot-soft); color:#166534; padding:2px 7px; border-radius:6px; border:1px solid #bbf7d0}
+  .phase{margin:1.4em 0}
+  .phase-h{display:flex; align-items:center; gap:10px; margin-bottom:6px}
+  .phase-h .dot{width:10px; height:10px; border-radius:50%; background:var(--brand)}
+  .phase-h h3{margin:0}
+  .legend{display:flex; flex-wrap:wrap; gap:14px; font-size:13px; color:var(--muted); margin:6px 0 18px;
+    align-items:center}
+  .legend span{display:inline-flex; align-items:center; gap:6px}
+  .flow{background:#0f172a; color:#cbd5e1; border-radius:12px; padding:18px 20px; font-size:13.5px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; overflow:auto; line-height:1.9}
+  .flow b{color:#a5b4fc}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+  @media(max-width:720px){.grid2{grid-template-columns:1fr}.toc ol{columns:1}}
+  .card{border:1px solid var(--line); border-radius:12px; padding:16px 18px; background:#fcfcfd}
+  .card h4{margin:0 0 6px; font-size:15px}
+  .decision{border:1px solid var(--line); border-left:4px solid #f59e0b; border-radius:0 10px 10px 0;
+    padding:14px 18px; margin:12px 0; background:#fffdf7}
+  .decision b{color:#b45309}
+  footer{color:var(--muted); font-size:13px; text-align:center; padding-top:10px}
+  a{color:var(--brand)}
+  .modules{columns:2; column-gap:34px; font-size:14px}
+  @media(max-width:720px){.modules{columns:1}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Faircode · ERPNext Delivery</div>
+    <h1>The Faircode Skills Suite</h1>
+    <p>A structured, guard-railed way of running ERPNext implementation &amp; customisation
+       projects — from customer discovery through development, testing, CI and handover —
+       packaged as a Claude plugin the whole team installs and follows.</p>
+    <div class="hero-meta">
+      <span class="chip">📦 Repo: <a href="https://github.com/nipunFaircode/faircode-skills">github.com/nipunFaircode/faircode-skills</a></span>
+      <span class="chip">🟢 Phase 1 pilot shipped</span>
+      <span class="chip">✅ 13/13 tests green</span>
+      <span class="chip">🌿 24 skills designed · 6 built</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="toc">
+    <h4>On this page</h4>
+    <ol>
+      <li><a href="#why">Why we're doing this</a></li>
+      <li><a href="#idea">The core idea</a></li>
+      <li><a href="#repo">The repository &amp; how to review</a></li>
+      <li><a href="#structure">The skill structure (all 24)</a></li>
+      <li><a href="#discovery">Interactive discovery &amp; the coverage gate</a></li>
+      <li><a href="#architecture">How it's built</a></li>
+      <li><a href="#quality">How quality gets locked</a></li>
+      <li><a href="#rollout">Rollout plan</a></li>
+      <li><a href="#decisions">Open decisions for discussion</a></li>
+      <li><a href="#feedback">How to give feedback</a></li>
+    </ol>
+  </div>
+
+  <!-- WHY -->
+  <section id="why">
+    <h2><span class="num">01</span>Why we're doing this</h2>
+    <p class="lead">Our delivery pipeline leaks quality at predictable points. This suite turns the
+       way we work into explicit, repeatable steps — with guard-rails strong enough for a growing,
+       still-maturing team — so delivery becomes quality, predictable and market-presentable.</p>
+    <div class="pains">
+      <div class="pain"><b>Discovery</b><span>Consultants miss points during customer discussions; long written notes leave everyone guessing.</span></div>
+      <div class="pain"><b>Handoff</b><span>Tasks reach developers without clear acceptance criteria; requirements get misunderstood.</span></div>
+      <div class="pain"><b>Development</b><span>Code copy-pasted from chat, Frappe methods ignored, simple problems over-engineered.</span></div>
+      <div class="pain"><b>Testing</b><span>No consistent Frappe TDD or end-to-end tests; quality isn't enforced by CI/CD.</span></div>
+    </div>
+    <p>Each skill below targets one of these leaks, and the <strong>CI guard-rails</strong> make the
+       most important standards <em>non-optional</em> — they hold regardless of who (or what) wrote the work.</p>
+  </section>
+
+  <!-- IDEA -->
+  <section id="idea">
+    <h2><span class="num">02</span>The core idea</h2>
+    <p>A <strong>skill</strong> is a short, focused playbook. Some are run by an AI assistant while coding
+       (TDD, Frappe methods); some are human checklists (UAT, customer comms); many are <strong>hybrid</strong>.
+       They share one vocabulary and chain together across the project lifecycle, so an inexperienced team
+       member is never guessing what to do next.</p>
+    <div class="callout">
+      <strong>The principle:</strong>
+      Skills <em>advise</em>; CI <em>enforces</em>. We document the right way to work, and then we wire the
+      few things that truly matter (tests, coverage, review) so they can't be skipped.
+    </div>
+    <p>It extends the official <a href="https://github.com/frappe/skills">frappe/skills</a> repo
+       (which covers code style and app dev) into the <strong>delivery and process</strong> side they don't cover.</p>
+  </section>
+
+  <!-- REPO -->
+  <section id="repo">
+    <h2><span class="num">03</span>The repository &amp; how to review</h2>
+    <p>Everything lives here:
+       <a href="https://github.com/nipunFaircode/faircode-skills"><strong>github.com/nipunFaircode/faircode-skills</strong></a> (public).</p>
+    <h3>Try it in Claude</h3>
+<pre><code>/plugin marketplace add https://github.com/nipunFaircode/faircode-skills
+/plugin install faircode</code></pre>
+    <h3>Or just read it on GitHub</h3>
+    <ul>
+      <li><code>skills/faircode-*/SKILL.md</code> — the six built skills (each is short, read in 2 min)</li>
+      <li><code>shared/references/</code> — the shared rules every skill cites (Frappe methods, git conventions, Definition of Done, <strong>ERP Coverage Map</strong>)</li>
+      <li><code>shared/erpnext_client/</code> — the helper that reads from, and safely writes to, our ERPNext</li>
+      <li><code>docs/superpowers/specs/</code> — the full design · <code>docs/superpowers/plans/</code> — the build plan</li>
+    </ul>
+  </section>
+
+  <!-- STRUCTURE -->
+  <section id="structure">
+    <h2><span class="num">04</span>The skill structure — all 24</h2>
+    <p class="lead">Organised by project lifecycle. The six marked <span class="pilotbadge">PILOT</span> are
+       built and in the repo today; the rest are designed and scheduled across later phases.</p>
+    <div class="legend">
+      <span><span class="tag ai">AI</span> agent-run</span>
+      <span><span class="tag human">HUMAN</span> playbook</span>
+      <span><span class="tag both">BOTH</span> hybrid</span>
+      <span><span class="lock">🔒</span> enforced/gated, not just advice</span>
+      <span><span class="pilotbadge">PILOT</span> built now</span>
+    </div>
+
+    <h3>Orchestrator</h3>
+    <table>
+      <tr><th>Skill</th><th>Type</th><th>What it does</th></tr>
+      <tr><td><code>faircode-delivery</code> <span class="pilotbadge">PILOT</span></td><td><span class="tag both">BOTH</span></td><td>Router — points you to the right skill for the current phase.</td></tr>
+    </table>
+
+    <h3>Sales → Delivery handoff</h3>
+    <table>
+      <tr><th>Skill</th><th>Type</th><th>What it does</th></tr>
+      <tr><td><code>faircode-project-kickoff</code></td><td><span class="tag both">BOTH</span></td><td>Turn the signed quotation/SOW into an ERPNext project skeleton.</td></tr>
+      <tr><td><code>faircode-requirements-discovery</code> <span class="lock">🔒</span> <span class="pilotbadge">PILOT</span></td><td><span class="tag both">BOTH</span></td><td><strong>Interactive</strong> customer interviews, module by module; can't propose a solution until ERP coverage is complete.</td></tr>
+    </table>
+
+    <h3>Design &amp; alignment <span style="font-weight:400;color:var(--muted)">(visual cues, same page)</span></h3>
+    <table>
+      <tr><th>Skill</th><th>Type</th><th>What it does</th></tr>
+      <tr><td><code>faircode-solution-blueprint</code> <span class="lock">🔒</span></td><td><span class="tag both">BOTH</span></td><td>Requirements → visual design (flow diagrams, data model, mockups, fit-gap). Gated on complete coverage.</td></tr>
+      <tr><td><code>faircode-customer-communication</code></td><td><span class="tag both">BOTH</span></td><td>Customer updates &amp; confirmations with visual summaries; explicit sign-off.</td></tr>
+      <tr><td><code>faircode-meeting-minutes</code></td><td><span class="tag both">BOTH</span></td><td>MoM: decisions, action items, owners, due dates → linked to ERPNext.</td></tr>
+      <tr><td><code>faircode-change-request</code></td><td><span class="tag both">BOTH</span></td><td>Scope-change control: log, impact, re-quote, sign-off.</td></tr>
+    </table>
+
+    <h3>Work breakdown</h3>
+    <table>
+      <tr><th>Skill</th><th>Type</th><th>What it does</th></tr>
+      <tr><td><code>faircode-task-breakdown</code> <span class="pilotbadge">PILOT</span></td><td><span class="tag both">BOTH</span></td><td>Decompose the blueprint into ERPNext tasks with <strong>acceptance criteria</strong> before a developer starts.</td></tr>
+    </table>
+
+    <h3>Development</h3>
+    <table>
+      <tr><th>Skill</th><th>Type</th><th>What it does</th></tr>
+      <tr><td><code>faircode-frappe-development</code> <span class="lock">🔒</span> <span class="pilotbadge">PILOT</span></td><td><span class="tag ai">AI</span></td><td>"Do it the Frappe way" — framework methods, no copy-paste-from-chat, no over-engineering.</td></tr>
+      <tr><td><code>faircode-code-style</code> <span class="lock">🔒</span></td><td><span class="tag ai">AI</span></td><td>House coding standards (wraps frappe code-style).</td></tr>
+      <tr><td><code>faircode-git-workflow</code> <span class="lock">🔒</span></td><td><span class="tag both">BOTH</span></td><td>Branch naming tied to task ID, commit/PR conventions, review gates.</td></tr>
+      <tr><td><code>faircode-bug-reporting</code></td><td><span class="tag both">BOTH</span></td><td>Structured repro / expected / actual / severity → ERPNext issue.</td></tr>
+    </table>
+
+    <h3>Testing &amp; CI locks</h3>
+    <table>
+      <tr><th>Skill</th><th>Type</th><th>What it does</th></tr>
+      <tr><td><code>faircode-test-driven-development</code> <span class="lock">🔒</span> <span class="pilotbadge">PILOT</span></td><td><span class="tag ai">AI</span></td><td>Frappe TDD: write the failing test first, always.</td></tr>
+      <tr><td><code>faircode-unit-testing</code> <span class="lock">🔒</span></td><td><span class="tag ai">AI</span></td><td><code>FrappeTestCase</code> patterns.</td></tr>
+      <tr><td><code>faircode-integration-testing</code> <span class="lock">🔒</span></td><td><span class="tag ai">AI</span></td><td>Server / API integration tests.</td></tr>
+      <tr><td><code>faircode-browser-testing</code> <span class="lock">🔒</span></td><td><span class="tag ai">AI</span></td><td>Automated end-to-end UI (Playwright/Cypress).</td></tr>
+      <tr><td><code>faircode-manual-testing</code></td><td><span class="tag human">HUMAN</span></td><td>UAT scripts &amp; acceptance checklists.</td></tr>
+      <tr><td><code>faircode-cicd-guardrails</code> <span class="lock">🔒</span> <span class="pilotbadge">PILOT</span></td><td><span class="tag ai">AI</span></td><td>The CI wiring that locks all the above — GitHub + GitLab templates, branch protection.</td></tr>
+    </table>
+
+    <h3>Release &amp; operations</h3>
+    <table>
+      <tr><th>Skill</th><th>Type</th><th>What it does</th></tr>
+      <tr><td><code>faircode-data-migration</code> <span class="lock">🔒</span></td><td><span class="tag both">BOTH</span></td><td>Master/transaction migration: mapping, validation, dry-run, reconciliation.</td></tr>
+      <tr><td><code>faircode-deployment-release</code> <span class="lock">🔒</span></td><td><span class="tag both">BOTH</span></td><td>Staging→prod, bench migrate, go-live cutover, rollback.</td></tr>
+      <tr><td><code>faircode-documentation-handover</code> <span class="lock">🔒</span></td><td><span class="tag both">BOTH</span></td><td>User manuals, training, handover — verifies every delivered module is documented.</td></tr>
+    </table>
+
+    <h3>Governance <span style="font-weight:400;color:var(--muted)">(runs continuously)</span></h3>
+    <table>
+      <tr><th>Skill</th><th>Type</th><th>What it does</th></tr>
+      <tr><td><code>faircode-project-tracking</code></td><td><span class="tag both">BOTH</span></td><td>Status, milestones, timesheets, %-complete, receivables (our existing tracker).</td></tr>
+      <tr><td><code>faircode-estimation</code></td><td><span class="tag both">BOTH</span></td><td>Effort estimation + definition of done.</td></tr>
+    </table>
+
+    <h3>How they chain</h3>
+    <div class="flow">
+<b>kickoff</b> → <b>requirements-discovery</b> → <b>solution-blueprint</b> → {customer-communication, meeting-minutes}<br>
+&nbsp;&nbsp;→ <b>task-breakdown</b> → [per task] <b>frappe-development</b> → <b>TDD</b> → {unit, integration, browser}-testing<br>
+&nbsp;&nbsp;→ git-workflow → <b>cicd-guardrails</b> → manual-testing/UAT<br>
+&nbsp;&nbsp;→ data-migration → deployment-release → documentation-handover<br><br>
+<span style="color:#64748b">continuous:</span> project-tracking · estimation · change-request · bug-reporting · code-style
+    </div>
+  </section>
+
+  <!-- DISCOVERY -->
+  <section id="discovery">
+    <h2><span class="num">05</span>Interactive discovery &amp; the coverage gate</h2>
+    <p class="lead">This is the direct fix for our #1 pain — consultants missing points. The discovery and
+       documentation skills are <strong>interviewers, not forms.</strong></p>
+    <div class="grid2">
+      <div class="card">
+        <h4>How it behaves</h4>
+        <ul>
+          <li>Asks <strong>one question at a time</strong>, module by module — never dumps a long form.</li>
+          <li>Driven by the <strong>ERP Coverage Map</strong>: every item is marked <em>answered</em>, <em>N/A (with reason)</em>, or <em>open</em>.</li>
+          <li><strong>Hard gate:</strong> no solution, blueprint, or final docs while any in-scope item is still <em>open</em>.</li>
+          <li>Two modes: an internal <em>consultant-readiness</em> interview, and a <em>customer-facing</em> one with visual cues.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>The ERP Coverage Map</h4>
+        <div class="modules">
+          Selling · Buying · Stock · Manufacturing · Accounts/Finance · HR &amp; Payroll · Projects · CRM ·
+          Assets · Quality · Support · Website/Portal · Company structure · Chart of accounts · Taxes ·
+          Naming series · Roles &amp; permissions · Workflows &amp; approvals · Print formats · Integrations ·
+          Data-migration sources · Reporting/KPIs · Multi-company/currency · Localisation
+        </div>
+      </div>
+    </div>
+    <div class="callout">
+      <strong>Why it matters:</strong>
+      "We've covered the main things, let's design" is exactly how points get missed. The gate forces every
+      relevant area to be explicitly answered or ruled out — on the record — before we commit to a solution.
+    </div>
+  </section>
+
+  <!-- ARCHITECTURE -->
+  <section id="architecture">
+    <h2><span class="num">06</span>How it's built</h2>
+    <div class="grid2">
+      <div class="card">
+        <h4>Packaged as a Claude plugin</h4>
+        <p>A single git repo with a plugin manifest, so the whole team installs the same source of truth with one command and gets updates as we improve it.</p>
+      </div>
+      <div class="card">
+        <h4>One ERPNext helper, shared</h4>
+        <p>A small client that <strong>reads</strong> Projects/Tasks/ToDos and <strong>safely writes back</strong> (creates tasks, logs MoM action items, files bugs) — but always prints the payload and asks for confirmation first. Token comes from an environment variable, never the code.</p>
+      </div>
+    </div>
+<pre><code>faircode-skills/
+├── .claude-plugin/        plugin + marketplace manifest
+├── skills/faircode-*/     one SKILL.md per skill
+│   └── faircode-cicd-guardrails/templates/  github + gitlab CI
+├── shared/
+│   ├── erpnext_client/    read + safe-write helper
+│   └── references/        frappe-methods · git-conventions · definition-of-done
+│                          severity-levels · erp-coverage-map
+└── docs/                  spec, plan, this overview</code></pre>
+  </section>
+
+  <!-- QUALITY -->
+  <section id="quality">
+    <h2><span class="num">07</span>How quality gets locked</h2>
+    <p class="lead">Two layers. The first guides; the second enforces.</p>
+    <div class="grid2">
+      <div class="card">
+        <h4>① Skill layer — advisory</h4>
+        <p>Guard-rail skills carry a mandatory checklist, a <strong>"STOP / red-flags" table</strong>
+           (catching rationalisations like <em>"let me just copy this from chat"</em>), and a
+           <strong>Definition of Done</strong> the work is checked against.</p>
+      </div>
+      <div class="card">
+        <h4>② CI layer — the real lock</h4>
+        <p>Ready-to-drop pipelines for <strong>both GitHub Actions and GitLab CI</strong>:
+           lint → Frappe tests → coverage threshold. With branch protection,
+           <strong>nothing reaches <code>main</code> without green checks</strong> —
+           no matter who wrote it.</p>
+      </div>
+    </div>
+    <div class="callout">
+      <strong>Net effect:</strong> sloppy or misunderstood work is caught before it ships to a customer,
+      which is exactly the predictability we're after.
+    </div>
+  </section>
+
+  <!-- ROLLOUT -->
+  <section id="rollout">
+    <h2><span class="num">08</span>Rollout plan</h2>
+    <p class="lead">We're not dropping 24 skills on the team at once. We pilot the highest-impact ones,
+       prove them, then expand.</p>
+    <div class="phase">
+      <div class="phase-h"><span class="dot" style="background:var(--pilot)"></span><h3>Phase 1 — Pilot <span class="pilotbadge">DONE</span></h3></div>
+      <p>Router, interactive requirements-discovery, task-breakdown, Frappe development, TDD, CI guard-rails,
+         plus the shared ERPNext helper and references. <em>Built and in the repo.</em></p>
+    </div>
+    <div class="phase">
+      <div class="phase-h"><span class="dot"></span><h3>Phase 2 — Design &amp; comms</h3></div>
+      <p>solution-blueprint, customer-communication, meeting-minutes, change-request.</p>
+    </div>
+    <div class="phase">
+      <div class="phase-h"><span class="dot"></span><h3>Phase 3 — Full testing &amp; dev hygiene</h3></div>
+      <p>unit / integration / browser / manual testing, git-workflow, bug-reporting, code-style.</p>
+    </div>
+    <div class="phase">
+      <div class="phase-h"><span class="dot"></span><h3>Phase 4 — Release &amp; governance</h3></div>
+      <p>project-kickoff, data-migration, deployment-release, documentation-handover, project-tracking, estimation.</p>
+    </div>
+  </section>
+
+  <!-- DECISIONS -->
+  <section id="decisions">
+    <h2><span class="num">09</span>Open decisions for discussion</h2>
+    <p class="lead">Two small calls we'd like the team's input on:</p>
+    <div class="decision">
+      <p><b>1. CI coverage threshold.</b> The pipelines currently fail a build under <strong>70%</strong>
+         test coverage. Is 70% the right bar to start with, or should we ramp (e.g. 50% now → 70% later)
+         so early adoption isn't blocked?</p>
+    </div>
+    <div class="decision">
+      <p><b>2. ERPNext URL default.</b> The helper defaults to <code>https://erp.faircode.co</code> when the
+         environment variable is unset. Convenient, but it means an unconfigured run points at production
+         (reads are safe; writes always ask first). Keep the default, or require the variable explicitly?</p>
+    </div>
+    <div class="callout danger">
+      <strong>Security to-do (unrelated to this repo):</strong>
+      the legacy <code>tracker/fetch.py</code> script had a hard-coded ERPNext API token. It should be
+      <strong>rotated</strong> and moved to an environment variable. Treat the old token as compromised.
+    </div>
+  </section>
+
+  <!-- FEEDBACK -->
+  <section id="feedback">
+    <h2><span class="num">10</span>How to give feedback</h2>
+    <ul>
+      <li>Skim the six <code>SKILL.md</code> files — are the steps and "STOP" rules right for how we actually work?</li>
+      <li>Check the <strong>ERP Coverage Map</strong> — is any module or aspect missing for the projects you run?</li>
+      <li>Sanity-check the <strong>CI templates</strong> against our real Frappe app repos (branch, bench version).</li>
+      <li>Weigh in on the two open decisions above.</li>
+      <li>Raise anything as a <strong>GitHub Issue</strong> on the repo, or reply on this thread.</li>
+    </ul>
+    <p style="margin-top:18px"><a href="https://github.com/nipunFaircode/faircode-skills">→ Open the repository</a></p>
+  </section>
+
+  <footer>
+    Faircode Skills Suite · Phase 1 pilot · prepared for team review.
+  </footer>
+
+</div>
+</body>
+</html>
