@@ -1,0 +1,38 @@
+name: erpnext-ci
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      mariadb:
+        image: mariadb:10.6
+        env: { MYSQL_ROOT_PASSWORD: root }
+        ports: ["3306:3306"]
+      redis:
+        image: redis:7
+        ports: ["6379:6379"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Lint
+        run: pip install ruff && ruff check .
+      - name: Bench init & install app
+        run: |
+          pip install frappe-bench
+          bench init --skip-redis-config-generation --frappe-branch version-15 frappe-bench
+          cd frappe-bench
+          bench new-site test.localhost --admin-password admin --mariadb-root-password root --no-mariadb-socket
+          bench get-app "$GITHUB_WORKSPACE" && bench --site test.localhost install-app "$(basename $GITHUB_WORKSPACE)"
+      - name: Run tests with coverage
+        run: |
+          cd frappe-bench
+          bench --site test.localhost run-tests --app "$(basename $GITHUB_WORKSPACE)" --coverage
+      - name: Enforce coverage threshold
+        run: |
+          cd frappe-bench
+          coverage report --fail-under=70

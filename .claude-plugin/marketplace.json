@@ -13,7 +13,8 @@
         "./skills/faircode-requirements-discovery",
         "./skills/faircode-task-breakdown",
         "./skills/faircode-frappe-development",
-        "./skills/faircode-test-driven-development"
+        "./skills/faircode-test-driven-development",
+        "./skills/faircode-cicd-guardrails"
       ]
     }
   ]
