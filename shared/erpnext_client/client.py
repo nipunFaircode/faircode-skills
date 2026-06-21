@@ -51,3 +51,30 @@ class ERPNextClient:
                 break
             start += 500
         return out
+
+    def _confirm(self, summary):
+        print(summary)
+        return input("Proceed with this write to ERPNext? [y/N] ").strip().lower() == "y"
+
+    def _safe_post(self, doctype, doc, summary):
+        if not self._confirm(summary):
+            print("Aborted — nothing written.")
+            return None
+        return self._request("POST", f"/api/resource/{urllib.parse.quote(doctype)}", body=doc)["data"]
+
+    def create_task(self, project, subject, description, acceptance_criteria):
+        full_desc = f"{description}\n\n## Acceptance Criteria\n{acceptance_criteria}"
+        doc = {"project": project, "subject": subject, "description": full_desc}
+        summary = f"CREATE Task in {project}: {subject!r}\n{full_desc}"
+        return self._safe_post("Task", doc, summary)
+
+    def add_comment(self, doctype, name, text):
+        doc = {"reference_doctype": doctype, "reference_name": name,
+               "content": text, "comment_type": "Comment"}
+        summary = f"COMMENT on {doctype} {name}: {text!r}"
+        return self._safe_post("Comment", doc, summary)
+
+    def file_bug(self, project, subject, body):
+        doc = {"project": project, "subject": subject, "description": body}
+        summary = f"CREATE Issue in {project}: {subject!r}\n{body}"
+        return self._safe_post("Issue", doc, summary)
