@@ -10,7 +10,8 @@
       "strict": false,
       "skills": [
         "./skills/faircode-delivery",
-        "./skills/faircode-requirements-discovery"
+        "./skills/faircode-requirements-discovery",
+        "./skills/faircode-task-breakdown"
       ]
     }
   ]
