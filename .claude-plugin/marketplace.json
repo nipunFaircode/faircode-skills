@@ -12,7 +12,8 @@
         "./skills/faircode-delivery",
         "./skills/faircode-requirements-discovery",
         "./skills/faircode-task-breakdown",
-        "./skills/faircode-frappe-development"
+        "./skills/faircode-frappe-development",
+        "./skills/faircode-test-driven-development"
       ]
     }
   ]
