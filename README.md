@@ -6,7 +6,7 @@ implementation & customisation team.
 ## Install (team)
 
 ```bash
-/plugin marketplace add https://github.com/faircode/faircode-skills
+/plugin marketplace add https://github.com/nipunFaircode/faircode-skills
 /plugin install faircode
 ```
 
