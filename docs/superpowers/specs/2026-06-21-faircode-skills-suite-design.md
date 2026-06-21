@@ -65,13 +65,18 @@ by a CI lock, not advisory only.
 **Sales → Delivery handoff**
 - `faircode-project-kickoff` — signed quotation/SOW → ERPNext Project skeleton
   (scope, milestones, deliverables, timeline). **[Both]**
-- `faircode-requirements-discovery` — finetuned customer interviews; module
-  question banks; fit-gap between business requirements and vanilla ERPNext.
+- `faircode-requirements-discovery` 🔒 — **interactive** finetuned customer
+  interviews; questions the consultant one aspect at a time, module by module;
+  fit-gap between business requirements and vanilla ERPNext. **Completeness-gated:
+  cannot proceed to a solution until the full ERP Coverage Map is answered or
+  explicitly marked N/A.** See "Interactive discovery & completeness gate" below.
   **[Both]**
 
 **Design & alignment (visual cues, same page)**
-- `faircode-solution-blueprint` — requirements → visual solution design (process
-  flow diagrams, data model, mockups, fit-gap matrix) for sign-off. **[Both]**
+- `faircode-solution-blueprint` 🔒 — requirements → visual solution design
+  (process flow diagrams, data model, mockups, fit-gap matrix) for sign-off.
+  **Gated: refuses to emit a blueprint while any ERP Coverage Map item the
+  discovery phase left open is still unresolved.** **[Both]**
 - `faircode-customer-communication` — customer-facing updates/confirmations with
   visual summaries; explicit sign-off protocol. **[Both]**
 - `faircode-meeting-minutes` — MoM: decisions, action items, owners, due dates →
@@ -109,8 +114,9 @@ by a CI lock, not advisory only.
   validation, dry-run, reconciliation. **[Both]**
 - `faircode-deployment-release` 🔒 — staging→prod, bench migrate, go-live
   cutover checklist, rollback. **[Both]**
-- `faircode-documentation-handover` — user manuals, training, handover docs.
-  **[Both]**
+- `faircode-documentation-handover` 🔒 — user manuals, training, handover docs;
+  **interactive — verifies every delivered module from the ERP Coverage Map is
+  documented before sign-off.** **[Both]**
 
 **Governance (continuous)**
 - `faircode-project-tracking` — status, milestones, timesheet/%-complete/
@@ -137,7 +143,8 @@ faircode-skills/                       git repo (GitHub primary; mirror GitLab)
 ├── shared/
 │   ├── erpnext_client/                safe-write ERPNext helper (refactor of fetch.py)
 │   └── references/                    frappe-methods.md, git-conventions.md,
-│                                      definition-of-done.md, severity-levels.md
+│                                      definition-of-done.md, severity-levels.md,
+│                                      erp-coverage-map.md  ← discovery completeness checklist
 └── README.md
 ```
 
@@ -161,6 +168,34 @@ Refactor of `fetch.py`:
   before any POST.
 - Consumed by `task-breakdown`, `meeting-minutes`, `bug-reporting`,
   `project-kickoff`.
+
+### Interactive discovery & completeness gate (cross-cutting)
+The discovery and documentation skills — `faircode-requirements-discovery`,
+`faircode-solution-blueprint`, and `faircode-documentation-handover` — are
+**interactive interviewers, not form generators**. This directly addresses the
+core pain: *consultants miss many points during discussion*.
+
+Behaviour required of these skills:
+1. **One question at a time.** Walk the consultant through ERPNext **module by
+   module**, asking a single focused question per turn and recording the answer.
+   Never dump a long questionnaire; never assume an answer.
+2. **Drive from the ERP Coverage Map.** `shared/references/erp-coverage-map.md`
+   enumerates every ERPNext domain (Selling, Buying, Stock, Manufacturing,
+   Accounts, HR & Payroll, Projects, CRM, Assets, Quality, Support,
+   Website/Portal) and the cross-cutting aspects (company/org structure, chart of
+   accounts, taxes, naming series, roles & permissions, print formats,
+   workflows & approvals, integrations, data-migration sources, reporting/KPIs,
+   multi-company/multi-currency). The skill tracks each item as
+   **answered / N-A-with-reason / open**.
+3. **Hard completeness gate.** The skill **MUST NOT propose a solution, produce
+   a blueprint, or write final documentation while any applicable Coverage Map
+   item is still `open`.** Each open item is either answered or explicitly marked
+   `N/A` with a stated reason first. This gate uses the same STOP-table /
+   Definition-of-Done discipline as the development guard-rails (hence these
+   skills are marked 🔒).
+4. **Surface gaps explicitly.** Output includes the filled coverage map, a list
+   of customer-facing open questions, and the identified fit-gaps — so nothing
+   is silently skipped.
 
 ### Quality lock — two layers
 1. **Skill layer (advisory):** rigid skills + Definition-of-Done self-checks
