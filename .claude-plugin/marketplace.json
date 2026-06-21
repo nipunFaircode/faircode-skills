@@ -8,7 +8,9 @@
       "description": "ERPNext implementation & customisation delivery skills",
       "source": "./",
       "strict": false,
-      "skills": []
+      "skills": [
+        "./skills/faircode-delivery"
+      ]
     }
   ]
 }
