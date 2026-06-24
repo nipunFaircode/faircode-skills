@@ -32,8 +32,13 @@ TOKEN = os.environ.get("FAIRCODE_ERP_TOKEN")
 
 
 def _ping():
-    """Return the HTTP status code from a lightweight auth check."""
-    url = f"{BASE_URL}/api/method/frappe.auth.get_logged_user"
+    """Return the HTTP status code from an auth-gated endpoint.
+
+    frappe.auth.get_logged_user returns 200 even for unauthenticated requests
+    (returns 'Guest'). Use a resource endpoint instead - it enforces token auth
+    and returns 401 for an invalid or missing token.
+    """
+    url = f"{BASE_URL}/api/resource/Task?limit_page_length=1&fields=[\"name\"]"
     req = urllib.request.Request(url)
     req.add_header("Authorization", f"token {TOKEN}")
     try:
