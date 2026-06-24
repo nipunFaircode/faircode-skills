@@ -21,13 +21,23 @@ Before starting, verify the token is set and accepted by the API:
 printenv FAIRCODE_ERP_TOKEN
 ```
 
-If empty, the developer must export it from their shell profile:
+If empty, the token must be persisted in the shell profile so it survives
+across sessions. A bare `export` in the terminal is lost when the terminal
+closes - this is the most common reason the token "works once then fails".
+
+Add it permanently:
 
 ```bash
-export FAIRCODE_ERP_TOKEN=<api_key>:<api_secret>
+# for bash
+echo 'export FAIRCODE_ERP_TOKEN=<api_key>:<api_secret>' >> ~/.bashrc && source ~/.bashrc
+
+# for zsh
+echo 'export FAIRCODE_ERP_TOKEN=<api_key>:<api_secret>' >> ~/.zshrc && source ~/.zshrc
 ```
 
 The API key and secret come from ERPNext: erp.faircode.co > User > API Access.
+Do not use `export FAIRCODE_ERP_TOKEN=...` alone in the terminal - it will
+not survive a new session or a Claude Code restart.
 
 Once non-empty, confirm the token is actually accepted:
 
@@ -127,6 +137,7 @@ something a tester can pass/fail without asking a question. See
 | "It's obvious what done means" | Then it takes 20 seconds to write it down. Do it. |
 | "I'll create the task without acceptance criteria, add later" | No. AC before assignment. |
 | "FAIRCODE_ERP_TOKEN is probably set" | Check it is non-empty AND ping the API. A 401 five tool calls deep wastes more time than a two-second ping up front. |
+| "I'll just export the token for now" | `export` is session-only. If the developer hasn't added it to ~/.bashrc or ~/.zshrc, it will vanish on the next terminal open. Confirm it is in the profile before continuing. |
 | "Project name is Faircode ERPNext" | ERP needs the ID (`PROJ-0018`), not the display name. Look it up first. |
 
 ## Definition of Done
