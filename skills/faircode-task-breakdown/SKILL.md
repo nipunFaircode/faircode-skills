@@ -15,7 +15,7 @@ a task in erp.faircode.co, and a known custom app.
 
 ## Prerequisites - ERP credentials
 
-Before starting, verify the token is available:
+Before starting, verify the token is set and accepted by the API:
 
 ```bash
 printenv FAIRCODE_ERP_TOKEN
@@ -28,13 +28,22 @@ export FAIRCODE_ERP_TOKEN=<api_key>:<api_secret>
 ```
 
 The API key and secret come from ERPNext: erp.faircode.co > User > API Access.
-Do not proceed until the token is confirmed non-empty.
 
-## Collect dev environment info (ask once)
+Once non-empty, confirm the token is actually accepted:
 
-Before breaking down tasks, ask:
+```bash
+curl -s -o /dev/null -w "%{http_code}" \
+  https://erp.faircode.co/api/method/frappe.auth.get_logged_user \
+  -H "Authorization: token $FAIRCODE_ERP_TOKEN"
+```
 
-1. **ERPNext project ID** - the `PROJ-XXXX` ID from erp.faircode.co, not the project_name (e.g. `PROJ-0018`). To look it up: `curl -s "https://erp.faircode.co/api/resource/Project?fields=[\"name\",\"project_name\"]&limit_page_length=100" -H "Authorization: token $FAIRCODE_ERP_TOKEN"`
+If the response is not `200`, stop. Ask the consultant to regenerate their token before continuing. Do not proceed until both checks pass.
+
+## Collect dev environment info (ask once, all together)
+
+Ask all three questions in a single AskUserQuestion call before breaking down any tasks:
+
+1. **ERPNext project ID** - the `PROJ-XXXX` ID from erp.faircode.co (e.g. `PROJ-0018`). Offer "look it up for me" as an option - if chosen, run: `curl -s "https://erp.faircode.co/api/resource/Project?fields=[\"name\",\"project_name\"]&limit_page_length=100" -H "Authorization: token $FAIRCODE_ERP_TOKEN"` and present the results.
 2. **Custom app name** - the Frappe app development will happen in (e.g. `greenbite`)
 3. **Localhost site** - the developer's local bench site (e.g. `greenbite.local`)
 
@@ -52,14 +61,27 @@ Record these three values. They go on every task created in this session.
    - **Out of scope** - what this task does NOT cover.
    - **Estimate** - rough hours (see faircode-estimation when available).
 4. Identify the ERPNext doctype(s) and whether it is config vs code.
-5. For each task, show the full payload to the consultant (project, subject,
-   description, AC, custom app) and ask for confirmation before writing.
-   Once confirmed, create it with `--yes` (the `--yes` flag skips the
-   interactive prompt because the consultant has already reviewed the payload
-   in Claude):
+5. For each task, run `--dry-run` first and show the exact JSON output to the
+   consultant for confirmation. This is faster than prose - the consultant can
+   point to a specific field to change:
 
    ```bash
-   python3 ~/.claude/skills/faircode-task-breakdown/scripts/create_task.py \
+   python3 $HOME/.claude/skills/faircode-task-breakdown/scripts/create_task.py \
+     --project "PROJ-XXXX" \
+     --subject "SUBJECT" \
+     --description "CONTEXT (1-2 lines)" \
+     --ac "- Given ...\n- When ...\n- Then ..." \
+     --custom-app "APP_NAME" \
+     --estimate 2.0 \
+     --dry-run
+   ```
+
+   Once the consultant confirms the payload, create all tasks in parallel using
+   concurrent tool calls - replace `--dry-run` with `--yes`. Independent tasks
+   must never be created sequentially:
+
+   ```bash
+   python3 $HOME/.claude/skills/faircode-task-breakdown/scripts/create_task.py \
      --project "PROJ-XXXX" \
      --subject "SUBJECT" \
      --description "CONTEXT (1-2 lines)" \
@@ -104,12 +126,12 @@ something a tester can pass/fail without asking a question. See
 | "Developer will figure out the details" | That is how requirements get missed. Write the AC. |
 | "It's obvious what done means" | Then it takes 20 seconds to write it down. Do it. |
 | "I'll create the task without acceptance criteria, add later" | No. AC before assignment. |
-| "FAIRCODE_ERP_TOKEN is probably set" | Check before creating - a failed API call mid-session wastes time. |
+| "FAIRCODE_ERP_TOKEN is probably set" | Check it is non-empty AND ping the API. A 401 five tool calls deep wastes more time than a two-second ping up front. |
 | "Project name is Faircode ERPNext" | ERP needs the ID (`PROJ-0018`), not the display name. Look it up first. |
 
 ## Definition of Done
 
-- FAIRCODE_ERP_TOKEN confirmed set before any task is created.
+- FAIRCODE_ERP_TOKEN confirmed non-empty and returns HTTP 200 on ping before any task is created.
 - Custom app name collected and recorded on every task.
 - Every created task has: subject, context, ≥1 testable AC, out-of-scope, estimate.
 - All tasks exist in erp.faircode.co, linked to the project.
