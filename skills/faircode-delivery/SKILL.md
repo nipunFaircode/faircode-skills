@@ -31,13 +31,17 @@ Pick the skill for the current phase. When unsure, start here.
   `faircode-bug-reporting`, `faircode-git-workflow`, `faircode-code-style`
 
 ## Default delivery flow
-kickoff → requirements-discovery → solution-blueprint →
-{customer-communication, meeting-minutes} → task-breakdown →
-[per task] frappe-development → test-driven-development →
-{unit,integration,browser}-testing → git-workflow → cicd-guardrails →
-manual-testing → data-migration → deployment-release → documentation-handover
+faircode-project-kickoff → faircode-requirements-discovery →
+faircode-solution-blueprint →
+{faircode-customer-communication, faircode-meeting-minutes} →
+faircode-task-breakdown →
+[per task] faircode-frappe-development → faircode-test-driven-development →
+{unit,integration,browser}-testing → faircode-git-workflow →
+faircode-cicd-guardrails → faircode-manual-testing → faircode-data-migration →
+faircode-deployment-release → faircode-documentation-handover
 
-> Pilot note: only a subset of these skills ship in v0.1 (delivery,
-> requirements-discovery, task-breakdown, frappe-development,
-> test-driven-development, cicd-guardrails). If a referenced skill is not
+> Pilot note: only a subset of these skills ship in v0.1 (faircode-delivery,
+> faircode-requirements-discovery, faircode-task-breakdown,
+> faircode-frappe-development, faircode-test-driven-development,
+> faircode-cicd-guardrails, faircode-help). If a referenced skill is not
 > installed yet, fall back to the closest available one and tell the user.

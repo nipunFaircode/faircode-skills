@@ -1,14 +1,17 @@
-# Faircode Skills
+# Faircode Frappe
 
-Claude plugin: a delivery-lifecycle skill suite for Faircode's ERPNext
+Claude plugin: a delivery-lifecycle skill suite for Faircode's ERPNext/Frappe
 implementation & customisation team.
 
 ## Install (team)
 
 ```bash
-/plugin marketplace add https://github.com/nipunFaircode/faircode-skills
+/plugin marketplace add https://github.com/nipunFaircode/faircode-frappe
 /plugin install faircode
 ```
+
+Once installed, start with `/faircode-help` or `/faircode-delivery` to route
+to the right skill for your current project phase.
 
 ## Configure ERPNext access
 

@@ -102,7 +102,7 @@
        projects — from customer discovery through development, testing, CI and handover —
        packaged as a Claude plugin the whole team installs and follows.</p>
     <div class="hero-meta">
-      <span class="chip">📦 Repo: <a href="https://github.com/nipunFaircode/faircode-skills">github.com/nipunFaircode/faircode-skills</a></span>
+      <span class="chip">📦 Repo: <a href="https://github.com/nipunFaircode/faircode-frappe">github.com/nipunFaircode/faircode-frappe</a></span>
       <span class="chip">🟢 Phase 1 pilot shipped</span>
       <span class="chip">✅ 13/13 tests green</span>
       <span class="chip">🌿 24 skills designed · 6 built</span>
@@ -164,9 +164,9 @@
   <section id="repo">
     <h2><span class="num">03</span>The repository &amp; how to review</h2>
     <p>Everything lives here:
-       <a href="https://github.com/nipunFaircode/faircode-skills"><strong>github.com/nipunFaircode/faircode-skills</strong></a> (public).</p>
+       <a href="https://github.com/nipunFaircode/faircode-frappe"><strong>github.com/nipunFaircode/faircode-frappe</strong></a> (public).</p>
     <h3>Try it in Claude</h3>
-<pre><code>/plugin marketplace add https://github.com/nipunFaircode/faircode-skills
+<pre><code>/plugin marketplace add https://github.com/nipunFaircode/faircode-frappe
 /plugin install faircode</code></pre>
     <h3>Or just read it on GitHub</h3>
     <ul>
@@ -255,11 +255,12 @@
 
     <h3>How they chain</h3>
     <div class="flow">
-<b>kickoff</b> → <b>requirements-discovery</b> → <b>solution-blueprint</b> → {customer-communication, meeting-minutes}<br>
-&nbsp;&nbsp;→ <b>task-breakdown</b> → [per task] <b>frappe-development</b> → <b>TDD</b> → {unit, integration, browser}-testing<br>
-&nbsp;&nbsp;→ git-workflow → <b>cicd-guardrails</b> → manual-testing/UAT<br>
-&nbsp;&nbsp;→ data-migration → deployment-release → documentation-handover<br><br>
-<span style="color:#64748b">continuous:</span> project-tracking · estimation · change-request · bug-reporting · code-style
+<b>faircode-project-kickoff</b> → <b>faircode-requirements-discovery</b> → <b>faircode-solution-blueprint</b> → {faircode-customer-communication, faircode-meeting-minutes}<br>
+&nbsp;&nbsp;→ <b>faircode-task-breakdown</b> → [per task] <b>faircode-frappe-development</b> → <b>faircode-test-driven-development</b> → {unit, integration, browser}-testing<br>
+&nbsp;&nbsp;→ faircode-git-workflow → <b>faircode-cicd-guardrails</b> → faircode-manual-testing/UAT<br>
+&nbsp;&nbsp;→ faircode-data-migration → faircode-deployment-release → faircode-documentation-handover<br><br>
+<span style="color:#64748b">continuous:</span> faircode-project-tracking · faircode-estimation · faircode-change-request · faircode-bug-reporting · faircode-code-style<br><br>
+<span style="color:#64748b">Every runnable command is prefixed <code>faircode-</code> — no bare short names. Start with <code>/faircode-help</code>.</span>
     </div>
   </section>
 
@@ -351,7 +352,7 @@
        prove them, then expand.</p>
     <div class="phase">
       <div class="phase-h"><span class="dot" style="background:var(--pilot)"></span><h3>Phase 1 — Pilot <span class="pilotbadge">DONE</span></h3></div>
-      <p>Router, interactive requirements-discovery, task-breakdown, Frappe development, TDD, CI guard-rails,
+      <p>Router (faircode-help, faircode-delivery), interactive requirements-discovery, task-breakdown, Frappe development, TDD, CI guard-rails,
          plus the shared ERPNext helper and references. <em>Built and in the repo.</em></p>
     </div>
     <div class="phase">
@@ -399,7 +400,7 @@
       <li>Weigh in on the two open decisions above.</li>
       <li>Raise anything as a <strong>GitHub Issue</strong> on the repo, or reply on this thread.</li>
     </ul>
-    <p style="margin-top:18px"><a href="https://github.com/nipunFaircode/faircode-skills">→ Open the repository</a></p>
+    <p style="margin-top:18px"><a href="https://github.com/nipunFaircode/faircode-frappe">→ Open the repository</a></p>
   </section>
 
   <footer>

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Faircode ERPNext delivery skills — discovery, blueprint, task breakdown, Frappe-method development, TDD, dual GitHub/GitLab CI guard-rails, release and governance.",
   "author": { "name": "Faircode", "url": "https://faircode.co" },
-  "repository": "https://github.com/nipunFaircode/faircode-skills",
+  "repository": "https://github.com/nipunFaircode/faircode-frappe",
   "license": "UNLICENSED",
   "keywords": ["erpnext", "frappe", "delivery", "tdd", "ci", "project-management"],
   "skills": "skills"

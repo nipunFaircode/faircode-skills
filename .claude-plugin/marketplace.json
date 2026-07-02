@@ -1,5 +1,5 @@
 {
-  "name": "faircode-skills",
+  "name": "faircode-frappe",
   "owner": { "name": "Faircode", "url": "https://faircode.co" },
   "metadata": { "description": "Faircode ERPNext delivery skill suite", "version": "0.1.0" },
   "plugins": [
@@ -14,7 +14,8 @@
         "./skills/faircode-task-breakdown",
         "./skills/faircode-frappe-development",
         "./skills/faircode-test-driven-development",
-        "./skills/faircode-cicd-guardrails"
+        "./skills/faircode-cicd-guardrails",
+        "./skills/faircode-help"
       ]
     }
   ]
