@@ -1,0 +1,6 @@
+[
+  {"query": "Set up CI guard-rails before this ERPNext customisation branch merges.", "should_trigger": true},
+  {"query": "We need dual GitHub/GitLab CI checks locked in before release for this Faircode project.", "should_trigger": true},
+  {"query": "How do I configure a Kubernetes ingress controller?", "should_trigger": false},
+  {"query": "What's the capital of Portugal?", "should_trigger": false}
+]

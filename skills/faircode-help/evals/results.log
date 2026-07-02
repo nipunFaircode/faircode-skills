@@ -1,0 +1,7 @@
+Evaluating: Use when the user types /faircode-help, asks "what faircode skills are available", or is new to this plugin and needs an entry point. Lists every faircode-* skill and hands off to faircode-delivery for phase-based routing.
+Results: 2/5 passed
+  [FAIL] rate=0/1 expected=True: /faircode-help
+  [FAIL] rate=0/1 expected=True: What faircode skills are installed in this plugin?
+  [FAIL] rate=0/1 expected=True: I'm new here, where do I even start with the Faircode plugin?
+  [PASS] rate=0/1 expected=False: What's the weather like in Kochi today?
+  [PASS] rate=0/1 expected=False: Explain how Python's asyncio event loop works.

@@ -1,0 +1,7 @@
+[
+  {"query": "We just signed the quote for the Acme ERPNext rollout, what do I do first?", "should_trigger": true},
+  {"query": "Which faircode skill do I use to write the acceptance criteria for a customer's task list?", "should_trigger": true},
+  {"query": "I'm mid-implementation on a customer's ERPNext project and don't know what phase comes after requirements discovery.", "should_trigger": true},
+  {"query": "Write me a haiku about the monsoon.", "should_trigger": false},
+  {"query": "What's the boiling point of water at sea level?", "should_trigger": false}
+]

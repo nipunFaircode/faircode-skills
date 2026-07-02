@@ -1,0 +1,6 @@
+[
+  {"query": "I have a signed-off solution blueprint for a customer's ERPNext customisation, break it into dev tasks with acceptance criteria.", "should_trigger": true},
+  {"query": "Turn this Faircode blueprint into ERPNext Tasks a developer can pick up.", "should_trigger": true},
+  {"query": "How do I write a SQL JOIN across three tables?", "should_trigger": false},
+  {"query": "Draft a customer-facing status update email for this week's sprint.", "should_trigger": false}
+]

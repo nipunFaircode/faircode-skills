@@ -1,0 +1,51 @@
+{
+  "skill_name": "faircode-help",
+  "description": "Use when the user types /faircode-help, asks \"what faircode skills are available\", or is new to this plugin and needs an entry point. Lists every faircode-* skill and hands off to faircode-delivery for phase-based routing.",
+  "results": [
+    {
+      "query": "/faircode-help",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "What faircode skills are installed in this plugin?",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "I'm new here, where do I even start with the Faircode plugin?",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "What's the weather like in Kochi today?",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "Explain how Python's asyncio event loop works.",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    }
+  ],
+  "summary": {
+    "total": 5,
+    "passed": 2,
+    "failed": 3
+  }
+}

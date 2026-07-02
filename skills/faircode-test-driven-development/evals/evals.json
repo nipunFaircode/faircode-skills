@@ -1,0 +1,6 @@
+[
+  {"query": "Before I touch this ERPNext customisation code, walk me through TDD for it.", "should_trigger": true},
+  {"query": "I wrote a Frappe controller method with no tests, help me retrofit TDD properly.", "should_trigger": true},
+  {"query": "What's the difference between TCP and UDP?", "should_trigger": false},
+  {"query": "Recommend a good book on distributed systems.", "should_trigger": false}
+]

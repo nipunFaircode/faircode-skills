@@ -1,11 +1,14 @@
 ---
 name: faircode-delivery
 description: >-
-  Use at the start of any Faircode ERPNext project task to route to the correct
-  faircode-* skill. Triggers when the user mentions a Faircode delivery, an
-  ERPNext implementation/customisation project, "which skill do I use", project
-  kickoff, requirements, blueprint, task breakdown, development, testing, CI,
-  release, or handover for a customer project.
+  Use at the start of any Faircode ERPNext/Frappe project task, or any time
+  it's unclear which faircode-* skill applies, to route to the correct one.
+  Triggers on: starting or resuming delivery work on a customer project;
+  being mid-implementation and unsure what phase or skill comes next; asking
+  which faircode skill to use for a given step (e.g. writing acceptance
+  criteria, breaking down a blueprint); or mentioning project kickoff,
+  requirements, blueprint, task breakdown, Frappe development, testing, CI,
+  release, or handover for an ERPNext customisation project.
 ---
 
 # Faircode Delivery — orchestrator

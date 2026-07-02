@@ -1,0 +1,6 @@
+[
+  {"query": "I'm about to run a requirements interview with a new ERPNext customer, help me structure it.", "should_trigger": true},
+  {"query": "The customer keeps giving vague requirements for their Faircode project, how do I get to specifics?", "should_trigger": true},
+  {"query": "What's a good regex to validate an Indian GST number?", "should_trigger": false},
+  {"query": "Summarize this PDF invoice for me.", "should_trigger": false}
+]

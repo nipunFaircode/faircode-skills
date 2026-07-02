@@ -1,0 +1,7 @@
+[
+  {"query": "/faircode-help", "should_trigger": true},
+  {"query": "What faircode skills are installed in this plugin?", "should_trigger": true},
+  {"query": "I'm new here, where do I even start with the Faircode plugin?", "should_trigger": true},
+  {"query": "What's the weather like in Kochi today?", "should_trigger": false},
+  {"query": "Explain how Python's asyncio event loop works.", "should_trigger": false}
+]

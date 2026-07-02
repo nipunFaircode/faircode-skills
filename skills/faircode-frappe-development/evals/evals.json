@@ -1,0 +1,6 @@
+[
+  {"query": "I need to implement this ERPNext task, what's the Frappe-way to structure the doctype and controller code?", "should_trigger": true},
+  {"query": "Write a custom Frappe server script the right way for this customisation task.", "should_trigger": true},
+  {"query": "How do I center a div with flexbox?", "should_trigger": false},
+  {"query": "Explain the CAP theorem to me.", "should_trigger": false}
+]

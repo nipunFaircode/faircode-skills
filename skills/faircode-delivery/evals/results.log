@@ -1,0 +1,7 @@
+Evaluating: Use at the start of any Faircode ERPNext/Frappe project task, or any time it's unclear which faircode-* skill applies, to route to the correct one. Triggers on: starting or resuming delivery work on a customer project; being mid-implementation and unsure what phase or skill comes next; asking which faircode skill to use for a given step (e.g. writing acceptance criteria, breaking down a blueprint); or mentioning project kickoff, requirements, blueprint, task breakdown, Frappe development, testing, CI, release, or handover for an ERPNext customisation project.
+Results: 2/5 passed
+  [FAIL] rate=0/1 expected=True: Which faircode skill do I use to write the acceptance criteria for a c
+  [FAIL] rate=0/1 expected=True: I'm mid-implementation on a customer's ERPNext project and don't know 
+  [PASS] rate=0/1 expected=False: Write me a haiku about the monsoon.
+  [FAIL] rate=0/1 expected=True: We just signed the quote for the Acme ERPNext rollout, what do I do fi
+  [PASS] rate=0/1 expected=False: What's the boiling point of water at sea level?

@@ -1,0 +1,51 @@
+{
+  "skill_name": "faircode-delivery",
+  "description": "Use at the start of any Faircode ERPNext/Frappe project task, or any time it's unclear which faircode-* skill applies, to route to the correct one. Triggers on: starting or resuming delivery work on a customer project; being mid-implementation and unsure what phase or skill comes next; asking which faircode skill to use for a given step (e.g. writing acceptance criteria, breaking down a blueprint); or mentioning project kickoff, requirements, blueprint, task breakdown, Frappe development, testing, CI, release, or handover for an ERPNext customisation project.",
+  "results": [
+    {
+      "query": "Which faircode skill do I use to write the acceptance criteria for a customer's task list?",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "I'm mid-implementation on a customer's ERPNext project and don't know what phase comes after requirements discovery.",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "Write me a haiku about the monsoon.",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    },
+    {
+      "query": "We just signed the quote for the Acme ERPNext rollout, what do I do first?",
+      "should_trigger": true,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": false
+    },
+    {
+      "query": "What's the boiling point of water at sea level?",
+      "should_trigger": false,
+      "trigger_rate": 0.0,
+      "triggers": 0,
+      "runs": 1,
+      "pass": true
+    }
+  ],
+  "summary": {
+    "total": 5,
+    "passed": 2,
+    "failed": 3
+  }
+}
